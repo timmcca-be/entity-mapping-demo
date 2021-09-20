@@ -35,25 +35,34 @@ namespace EntityMappingDemo
                 await context.Database.EnsureCreatedAsync();
             }
             // each task is performed with a new DB context to simulate requests in an API project
-            await Perform(service => service.OpenAccount("Tim"));
-            await Perform(service => service.DepositToChecking(1, 100));
-            await Perform(service => service.DepositToSavings(1, 50));
-            await Perform(service => service.TransferToSavings(1, 75));
+            await Perform(service => service.CreateUser("Tim"));
+            await Perform(service => service.OpenCheckingAccount(1));
+            await Perform(service => service.OpenSavingsAccount(1));
+            await Perform(service => service.Deposit(1, 1, 100));
+            await Perform(service => service.Deposit(1, 2, 50));
+            await Perform(service => service.Transfer(1, 1, 2, 75));
             try
             {
-                await Perform(service => service.WithdrawFromSavings(1, 15, WithdrawalType.ATM));
-                throw new InvalidOperationException("Tried to illegally withdraw from savings, did not get an exception");
+                await Perform(service => service.Withdraw(1, 2, 15, WithdrawalType.ATM));
+                Console.Error.WriteLine("Tried to illegally withdraw from savings, did not get an exception");
+                return;
             }
             catch(InvalidOperationException)
             {
                 Console.WriteLine("Caught expected exception when withdrawing illegally");
             }
-            await Perform(service => service.AllowFromSavings(1, WithdrawalType.ATM));
-            await Perform(service => service.WithdrawFromSavings(1, 15, WithdrawalType.ATM));
+            await Perform(service => service.AllowWithdrawalType(1, 2, WithdrawalType.ATM));
+            await Perform(service => service.Withdraw(1, 2, 15, WithdrawalType.ATM));
             var user = await Perform(service => service.GetUser(1));
             Console.WriteLine("User name (should be Tim): " + user.Name);
-            Console.WriteLine("Checking balance (should be 25): " + user.CheckingAccount.Balance);
-            Console.WriteLine("Savings balance (should be 110): " + user.SavingsAccount.Balance);
+            Console.WriteLine("Checking balance (should be 25): " + user.BankAccount(1).Balance);
+            Console.WriteLine("Savings balance (should be 110): " + user.BankAccount(2).Balance);
+            Console.WriteLine("Doing more things...");
+            await Perform(service => service.DoLotsOfThings(1));
+            user = await Perform(service => service.GetUser(1));
+            Console.WriteLine("Account 1 balance (should be 15): " + user.BankAccount(1).Balance);
+            Console.WriteLine("Account 2 balance (should be 50): " + user.BankAccount(2).Balance);
+            Console.WriteLine("Account 3 balance (should be 20): " + user.BankAccount(3).Balance);
             await _connection.DisposeAsync();
         }
     }

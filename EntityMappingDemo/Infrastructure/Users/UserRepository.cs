@@ -21,13 +21,18 @@ namespace EntityMappingDemo.Infrastructure.Users
 
         public async Task<Domain.User> Get(int id)
         {
-            var entity = await _context.FindAsync<User>(id);
+            var entity = await _context.Users
+                .Where(user => user.ID == id)
+                .Include(user => user.BankAccounts)
+                .SingleAsync();
             return entity.DomainObject;
         }
 
         public async Task<Domain.User[]> GetAll()
         {
-            var entities = await _context.Users.ToListAsync();
+            var entities = await _context.Users
+                .Include(user => user.BankAccounts)
+                .ToListAsync();
             return entities.Select(user => user.DomainObject).ToArray();
         }
     }

@@ -3,10 +3,10 @@ using System;
 
 namespace EntityMappingDemo.Domain
 {
-    public class BankAccount : IValueObject
+    public class BankAccount : IEntity
     {
-        public uint Balance { get; }
-        public WithdrawalType AllowedWithdrawalTypes { get; } = ~WithdrawalType.None;
+        public uint Balance { get; private set; }
+        public WithdrawalType AllowedWithdrawalTypes { get; private set; } = ~WithdrawalType.None;
 
         public BankAccount(uint balance, WithdrawalType allowedWithdrawalTypes)
         {
@@ -14,9 +14,9 @@ namespace EntityMappingDemo.Domain
             AllowedWithdrawalTypes = allowedWithdrawalTypes;
         }
 
-        public BankAccount Deposit(uint amount) => new BankAccount(Balance + amount, AllowedWithdrawalTypes);
+        public void Deposit(uint amount) => Balance += amount;
 
-        public BankAccount Withdraw(uint amount, WithdrawalType type)
+        public void Withdraw(uint amount, WithdrawalType type)
         {
             if ((AllowedWithdrawalTypes & type) != type)
             {
@@ -26,13 +26,11 @@ namespace EntityMappingDemo.Domain
             {
                 throw new InvalidOperationException("Cannot overdraw account");
             }
-            return new BankAccount(Balance - amount, AllowedWithdrawalTypes);
+            Balance -= amount;
         }
 
-        public BankAccount Allow(WithdrawalType type) =>
-            new(Balance, AllowedWithdrawalTypes | type);
+        public void Allow(WithdrawalType type) => AllowedWithdrawalTypes |= type;
 
-        public BankAccount Disallow(WithdrawalType type) =>
-            new(Balance, AllowedWithdrawalTypes & ~type);
+        public void Disallow(WithdrawalType type) => AllowedWithdrawalTypes &= ~type;
     }
 }
