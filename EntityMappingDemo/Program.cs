@@ -1,4 +1,5 @@
 ﻿using EntityMappingDemo.Application;
+using EntityMappingDemo.Domain;
 using EntityMappingDemo.Infrastructure;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -38,10 +39,21 @@ namespace EntityMappingDemo
             await Perform(service => service.DepositToChecking(1, 100));
             await Perform(service => service.DepositToSavings(1, 50));
             await Perform(service => service.TransferToSavings(1, 75));
+            try
+            {
+                await Perform(service => service.WithdrawFromSavings(1, 15, WithdrawalType.ATM));
+                throw new InvalidOperationException("Tried to illegally withdraw from savings, did not get an exception");
+            }
+            catch(InvalidOperationException)
+            {
+                Console.WriteLine("Caught expected exception when withdrawing illegally");
+            }
+            await Perform(service => service.AllowFromSavings(1, WithdrawalType.ATM));
+            await Perform(service => service.WithdrawFromSavings(1, 15, WithdrawalType.ATM));
             var user = await Perform(service => service.GetUser(1));
             Console.WriteLine("User name (should be Tim): " + user.Name);
             Console.WriteLine("Checking balance (should be 25): " + user.CheckingAccount.Balance);
-            Console.WriteLine("Savings balance (should be 125): " + user.SavingsAccount.Balance);
+            Console.WriteLine("Savings balance (should be 110): " + user.SavingsAccount.Balance);
             await _connection.DisposeAsync();
         }
     }
