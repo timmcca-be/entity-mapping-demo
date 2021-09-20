@@ -15,14 +15,7 @@ namespace EntityMappingDemo
                .UseInMemoryDatabase(databaseName: "Test")
                .Options;
 
-        static Task<T> Perform<T>(Func<BankingService, Task<T>> function)
-        {
-            using var context = new BankingContext(_options);
-            var service = new BankingService(new UnitOfWork(context));
-            return function.Invoke(service);
-        }
-
-        static Task Perform(Func<BankingService, Task> function)
+        static T Perform<T>(Func<BankingService, T> function)
         {
             using var context = new BankingContext(_options);
             var service = new BankingService(new UnitOfWork(context));
