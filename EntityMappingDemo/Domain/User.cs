@@ -1,35 +1,42 @@
 ﻿using EntityMappingDemo.Domain.Common;
+using System.Collections.Generic;
 
 namespace EntityMappingDemo.Domain
 {
     public class User : IAggregateRoot
     {
         public string Name { get; }
-        public BankAccount CheckingAccount { get; private set; }
-        public BankAccount SavingsAccount { get; private set; }
+        public List<BankAccount> BankAccounts { get; }
 
-        public User(string name) : this(name, new(0), new(0)) { }
-
-        public User(string name, BankAccount checkingAccount, BankAccount savingsAccount)
+        public User(string name) : this(name, new()) { }
+        public User(string name, List<BankAccount> bankAccounts)
         {
             Name = name;
-            CheckingAccount = checkingAccount;
-            SavingsAccount = savingsAccount;
+            BankAccounts = bankAccounts;
         }
 
-        public void DepositToChecking(uint amount) => CheckingAccount = CheckingAccount.Deposit(amount);
-        public void DepositToSavings(uint amount) => SavingsAccount = SavingsAccount.Deposit(amount);
+        public BankAccount BankAccount(uint accountNumber) => BankAccounts[(int)accountNumber - 1];
 
-        public void TransferToChecking(uint amount)
+        public void Deposit(uint accountNumber, uint amount) =>
+            BankAccount(accountNumber).Deposit(amount);
+        public void Withdraw(uint accountNumber, uint amount, WithdrawalType type) =>
+            BankAccount(accountNumber).Withdraw(amount, type);
+
+        public void Transfer(uint withdrawalAccountNumber, uint depositAccountNumber, uint amount)
         {
-            SavingsAccount = SavingsAccount.Withdraw(amount);
-            CheckingAccount = CheckingAccount.Deposit(amount);
+            BankAccount(withdrawalAccountNumber).Withdraw(amount, WithdrawalType.Transfer);
+            BankAccount(depositAccountNumber).Deposit(amount);
         }
 
-        public void TransferToSavings(uint amount)
-        {
-            CheckingAccount = CheckingAccount.Withdraw(amount);
-            SavingsAccount = SavingsAccount.Deposit(amount);
-        }
+        public void AllowWithdrawalType(uint accountNumber, WithdrawalType withdrawalType) =>
+            BankAccount(accountNumber).Allow(withdrawalType);
+
+        public void DisallowWithdrawalType(uint accountNumber, WithdrawalType withdrawalType) =>
+            BankAccount(accountNumber).Disallow(withdrawalType);
+
+        public void OpenCheckingAccount() => BankAccounts.Add(new(0, ~WithdrawalType.None));
+        public void OpenSavingsAccount() => BankAccounts.Add(new(0, ~WithdrawalType.ATM));
+
+        public void CloseBankAccount(uint accountNumber) => BankAccounts.RemoveAt((int)accountNumber - 1);
     }
 }

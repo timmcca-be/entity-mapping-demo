@@ -1,12 +1,15 @@
-﻿namespace EntityMappingDemo.Infrastructure.Users
+﻿using EntityMappingDemo.Infrastructure.Users.BankAccounts;
+using EntityMappingDemo.Infrastructure.Users.States;
+using System.Collections.Generic;
+
+namespace EntityMappingDemo.Infrastructure.Users
 {
-    public class User
+    public class User : IPersistable<Domain.User>
     {
         public interface IState
         {
             public string Name { get; set; }
-            public uint CheckingBalance { get; set; }
-            public uint SavingsBalance { get; set; }
+            public List<BankAccount> BankAccounts { get; set; }
 
             public IState CreateDomainObject();
             public Domain.User DomainObject { get; }
@@ -18,15 +21,10 @@
             get => _state.Name;
             set => _state.Name = value;
         }
-        public uint CheckingBalance
+        public List<BankAccount> BankAccounts
         {
-            get => _state.CheckingBalance;
-            set => _state.CheckingBalance = value;
-        }
-        public uint SavingsBalance
-        {
-            get => _state.SavingsBalance;
-            set => _state.SavingsBalance = value;
+            get => _state.BankAccounts;
+            set => _state.BankAccounts = value;
         }
 
         private IState _state;
