@@ -2,7 +2,7 @@
 
 namespace EntityMappingDemo.Infrastructure.Users.BankAccounts
 {
-    public class BankAccount
+    public class BankAccount : IPersistable<Domain.BankAccount>
     {
         public interface IState
         {

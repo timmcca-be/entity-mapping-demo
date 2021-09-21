@@ -1,8 +1,7 @@
 ﻿namespace EntityMappingDemo.Infrastructure
 {
-    internal interface IPersistenceConverter<TDomain, TPersistence>
+    internal interface IPersistenceConverter<TDomain, TPersistence> where TPersistence : IPersistable<TDomain>
     {
-        public TPersistence ToPersistenceObject(TDomain domainObject);
-        public TDomain ToDomainObject(TPersistence persistenceObject);
+        public TPersistence ToPersistable(TDomain domainObject);
     }
 }

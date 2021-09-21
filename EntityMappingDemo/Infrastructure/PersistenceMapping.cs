@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace EntityMappingDemo.Infrastructure
 {
-    internal class PersistenceMapping<TDomain, TPersistence>
+    internal class PersistenceMapping<TDomain, TPersistence> where TPersistence : IPersistable<TDomain>
     {
         private readonly Dictionary<TDomain, TPersistence> _mapping = new();
         private readonly IPersistenceConverter<TDomain, TPersistence> _converter;
@@ -22,17 +22,17 @@ namespace EntityMappingDemo.Infrastructure
                 }
                 else
                 {
-                    var persistenceObject = _converter.ToPersistenceObject(domainObject);
-                    _mapping[domainObject] = persistenceObject;
-                    return persistenceObject;
+                    var persistable = _converter.ToPersistable(domainObject);
+                    _mapping[domainObject] = persistable;
+                    return persistable;
                 }
             }).ToList();
 
-        public List<TDomain> MapToDomain(IEnumerable<TPersistence> persistenceObjects) =>
-            persistenceObjects.Select(persistenceObject =>
+        public List<TDomain> MapToDomain(IEnumerable<TPersistence> persistables) =>
+            persistables.Select(persistable =>
             {
-                var domainObject = _converter.ToDomainObject(persistenceObject);
-                _mapping[domainObject] = persistenceObject;
+                var domainObject = persistable.DomainObject;
+                _mapping[domainObject] = persistable;
                 return domainObject;
             }).ToList();
     }

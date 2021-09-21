@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace EntityMappingDemo.Infrastructure.Users
 {
-    public class User
+    public class User : IPersistable<Domain.User>
     {
         public interface IState
         {
