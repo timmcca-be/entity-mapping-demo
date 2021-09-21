@@ -1,5 +1,4 @@
-﻿using EntityMappingDemo.Domain;
-using System;
+﻿using System;
 
 namespace EntityMappingDemo.Infrastructure.Users.BankAccounts.States
 {
@@ -18,6 +17,7 @@ namespace EntityMappingDemo.Infrastructure.Users.BankAccounts.States
             CheckWithdrawalsAllowed,
             ATMWithdrawalsAllowed);
 
-        public Domain.BankAccount DomainObject => throw new InvalidOperationException("Domain object not created");
+        public Domain.BankAccount DomainObject =>
+            throw new InvalidOperationException("Domain object not created");
     }
 }
