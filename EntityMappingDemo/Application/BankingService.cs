@@ -13,69 +13,70 @@ namespace EntityMappingDemo.Application
             _unitOfWork = unitOfWork;
         }
 
-        public async Task CreateUser(string name)
+        public async Task<IUserID> CreateUser(string name)
         {
-            await _unitOfWork.UserRepository.Add(new User(name));
+            var id = await _unitOfWork.UserRepository.Add(new User(name));
             await _unitOfWork.Commit();
+            return id;
         }
 
-        public async Task<User> GetUser(int id)
+        public async Task<User> GetUser(IUserID userID)
         {
-            var user = await _unitOfWork.UserRepository.Get(id);
+            var user = await _unitOfWork.UserRepository.Get(userID);
             await _unitOfWork.Commit();
             return user;
         }
 
-        public async Task OpenCheckingAccount(int id)
+        public async Task OpenCheckingAccount(IUserID userID)
         {
-            var user = await _unitOfWork.UserRepository.Get(id);
+            var user = await _unitOfWork.UserRepository.Get(userID);
             user.OpenCheckingAccount();
             await _unitOfWork.Commit();
         }
 
-        public async Task OpenSavingsAccount(int id)
+        public async Task OpenSavingsAccount(IUserID userID)
         {
-            var user = await _unitOfWork.UserRepository.Get(id);
+            var user = await _unitOfWork.UserRepository.Get(userID);
             user.OpenSavingsAccount();
             await _unitOfWork.Commit();
         }
 
-        public async Task Deposit(int userID, uint accountNumber, uint amount)
+        public async Task Deposit(IUserID userID, uint accountNumber, uint amount)
         {
             var user = await _unitOfWork.UserRepository.Get(userID);
             user.Deposit(accountNumber, amount);
             await _unitOfWork.Commit();
         }
 
-        public async Task Withdraw(int userID, uint accountNumber, uint amount, WithdrawalType type)
+        public async Task Withdraw(IUserID userID, uint accountNumber, uint amount, WithdrawalType type)
         {
             var user = await _unitOfWork.UserRepository.Get(userID);
             user.Withdraw(accountNumber, amount, type);
             await _unitOfWork.Commit();
         }
 
-        public async Task Transfer(int userID, uint withdrawalAccountNumber, uint depositAccountNumber, uint amount)
+        public async Task Transfer(IUserID userID, uint withdrawalAccountNumber, uint depositAccountNumber, uint amount)
         {
             var user = await _unitOfWork.UserRepository.Get(userID);
             user.Transfer(withdrawalAccountNumber, depositAccountNumber, amount);
             await _unitOfWork.Commit();
         }
 
-        public async Task AllowWithdrawalType(int userID, uint accountNumber, WithdrawalType withdrawalType)
+        public async Task AllowWithdrawalType(IUserID userID, uint accountNumber, WithdrawalType withdrawalType)
         {
             var user = await _unitOfWork.UserRepository.Get(userID);
             user.AllowWithdrawalType(accountNumber, withdrawalType);
             await _unitOfWork.Commit();
         }
 
-        public async Task DisallowWithdrawalType(int userID, uint accountNumber, WithdrawalType withdrawalType)
+        public async Task DisallowWithdrawalType(IUserID userID, uint accountNumber, WithdrawalType withdrawalType)
         {
             var user = await _unitOfWork.UserRepository.Get(userID);
             user.DisallowWithdrawalType(accountNumber, withdrawalType);
             await _unitOfWork.Commit();
         }
 
-        public async Task DoLotsOfThings(int userID)
+        public async Task DoLotsOfThings(IUserID userID)
         {
             var user = await _unitOfWork.UserRepository.Get(userID);
             user.CloseBankAccount(2);

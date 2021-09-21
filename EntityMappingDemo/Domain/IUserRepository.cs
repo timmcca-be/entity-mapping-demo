@@ -4,8 +4,8 @@ namespace EntityMappingDemo.Domain
 {
     public interface IUserRepository
     {
-        public Task Add(User user);
-        public Task<User> Get(int id);
+        public Task<IUserID> Add(User user);
+        public Task<User> Get(IUserID id);
         public Task<User[]> GetAll();
     }
 }

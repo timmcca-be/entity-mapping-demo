@@ -14,15 +14,17 @@ namespace EntityMappingDemo.Infrastructure.Users
             _context = context;
         }
 
-        public async Task Add(Domain.User domainObject)
+        public async Task<IUserID> Add(Domain.User domainObject)
         {
-            await _context.AddAsync(new User(domainObject));
+            var entity = new User(domainObject);
+            await _context.AddAsync(entity);
+            return new UserID(entity);
         }
 
-        public async Task<Domain.User> Get(int id)
+        public async Task<Domain.User> Get(IUserID id)
         {
             var entity = await _context.Users
-                .Where(user => user.ID == id)
+                .Where(user => user.ID == id.Value)
                 .Include(user => user.BankAccounts)
                 .SingleAsync();
             return entity.DomainObject;
