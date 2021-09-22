@@ -1,4 +1,6 @@
-﻿namespace EntityMappingDemo.Infrastructure.Users.BankAccounts
+﻿using EntityMappingDemo.Infrastructure.Persistence;
+
+namespace EntityMappingDemo.Infrastructure.Users.BankAccounts
 {
     internal class BankAccountPersistenceConverter : IPersistenceConverter<Domain.BankAccount, BankAccount>
     {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace EntityMappingDemo.Infrastructure
+namespace EntityMappingDemo.Infrastructure.Persistence
 {
-    internal class PersistenceMapping<TDomain, TPersistence> where TPersistence : IPersistable<TDomain>
+    public class PersistenceMapping<TDomain, TPersistence> where TPersistence : IPersistable<TDomain>
     {
         private readonly Dictionary<TDomain, TPersistence> _mapping = new();
         private readonly IPersistenceConverter<TDomain, TPersistence> _converter;

@@ -1,5 +1,5 @@
 ﻿using EntityMappingDemo.Domain;
-using System;
+using EntityMappingDemo.Infrastructure.Persistence;
 
 namespace EntityMappingDemo.Infrastructure.Users.BankAccounts.States
 {
@@ -37,27 +37,27 @@ namespace EntityMappingDemo.Infrastructure.Users.BankAccounts.States
         public uint Balance
         {
             get => DomainObject.Balance;
-            set => throw new InvalidOperationException("Entity is sealed");
+            set => throw new EntitySealedException();
         }
         public bool TransferWithdrawalsAllowed
         {
             get => (DomainObject.AllowedWithdrawalTypes & WithdrawalType.Transfer) == WithdrawalType.Transfer;
-            set => throw new InvalidOperationException("Entity is sealed");
+            set => throw new EntitySealedException();
         }
         public bool InStoreWithdrawalsAllowed
         {
             get => (DomainObject.AllowedWithdrawalTypes & WithdrawalType.InStore) == WithdrawalType.InStore;
-            set => throw new InvalidOperationException("Entity is sealed");
+            set => throw new EntitySealedException();
         }
         public bool CheckWithdrawalsAllowed
         {
             get => (DomainObject.AllowedWithdrawalTypes & WithdrawalType.Check) == WithdrawalType.Check;
-            set => throw new InvalidOperationException("Entity is sealed");
+            set => throw new EntitySealedException();
         }
         public bool ATMWithdrawalsAllowed
         {
             get => (DomainObject.AllowedWithdrawalTypes & WithdrawalType.ATM) == WithdrawalType.ATM;
-            set => throw new InvalidOperationException("Entity is sealed");
+            set => throw new EntitySealedException();
         }
 
         public BankAccount.IState CreateDomainObject() => this;

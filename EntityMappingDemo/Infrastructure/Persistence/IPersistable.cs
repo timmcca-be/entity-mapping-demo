@@ -1,4 +1,4 @@
-﻿namespace EntityMappingDemo.Infrastructure
+﻿namespace EntityMappingDemo.Infrastructure.Persistence
 {
     public interface IPersistable<T>
     {

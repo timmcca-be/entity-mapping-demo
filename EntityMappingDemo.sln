@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityMappingDemo", "EntityMappingDemo\EntityMappingDemo.csproj", "{3A92D091-692E-4BA1-B116-602E161D7E08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityMappingDemo", "EntityMappingDemo\EntityMappingDemo.csproj", "{3A92D091-692E-4BA1-B116-602E161D7E08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityMappingDemoTests", "EntityMappingDemoTests\EntityMappingDemoTests.csproj", "{9CBC4EB7-A059-429E-8D7B-3325BAF368FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{3A92D091-692E-4BA1-B116-602E161D7E08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A92D091-692E-4BA1-B116-602E161D7E08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A92D091-692E-4BA1-B116-602E161D7E08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CBC4EB7-A059-429E-8D7B-3325BAF368FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CBC4EB7-A059-429E-8D7B-3325BAF368FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CBC4EB7-A059-429E-8D7B-3325BAF368FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CBC4EB7-A059-429E-8D7B-3325BAF368FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

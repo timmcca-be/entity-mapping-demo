@@ -1,4 +1,5 @@
-﻿using EntityMappingDemo.Infrastructure.Users.BankAccounts.States;
+﻿using EntityMappingDemo.Infrastructure.Persistence;
+using EntityMappingDemo.Infrastructure.Users.BankAccounts.States;
 
 namespace EntityMappingDemo.Infrastructure.Users.BankAccounts
 {
@@ -28,6 +29,11 @@ namespace EntityMappingDemo.Infrastructure.Users.BankAccounts
         {
             get => _state.TransferWithdrawalsAllowed;
             set => _state.TransferWithdrawalsAllowed = value;
+        }
+        public bool InStoreWithdrawalsAllowed
+        {
+            get => _state.InStoreWithdrawalsAllowed;
+            set => _state.InStoreWithdrawalsAllowed = value;
         }
         public bool CheckWithdrawalsAllowed
         {

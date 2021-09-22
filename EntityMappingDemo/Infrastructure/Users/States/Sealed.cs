@@ -1,5 +1,5 @@
-﻿using EntityMappingDemo.Infrastructure.Users.BankAccounts;
-using System;
+﻿using EntityMappingDemo.Infrastructure.Persistence;
+using EntityMappingDemo.Infrastructure.Users.BankAccounts;
 using System.Collections.Generic;
 
 namespace EntityMappingDemo.Infrastructure.Users.States
@@ -19,12 +19,12 @@ namespace EntityMappingDemo.Infrastructure.Users.States
         public string Name
         {
             get => DomainObject.Name;
-            set => throw new InvalidOperationException("Entity is sealed");
+            set => throw new EntitySealedException();
         }
         public List<BankAccount> BankAccounts
         {
             get => _persistenceMapping.MapToPersistence(DomainObject.BankAccounts);
-            set => throw new InvalidOperationException("Entity is sealed");
+            set => throw new EntitySealedException();
         }
 
 

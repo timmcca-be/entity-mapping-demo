@@ -1,4 +1,5 @@
-﻿using EntityMappingDemo.Infrastructure.Users.BankAccounts;
+﻿using EntityMappingDemo.Infrastructure.Persistence;
+using EntityMappingDemo.Infrastructure.Users.BankAccounts;
 using EntityMappingDemo.Infrastructure.Users.States;
 using System.Collections.Generic;
 
